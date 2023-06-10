@@ -3,3 +3,4 @@ flask_restful
 loguru
 markdown2
 playwright
+pillow
