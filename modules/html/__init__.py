@@ -36,8 +36,11 @@ class img(Resource):
             page = browser.new_page()
             page.set_content(html)
             fpath = os.path.join(os.getcwd(),"cache","".join(random.choices("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", k=20))+".png")
-            element_handle = page.query_selector("//article[@id='md']")
-            element_handle.screenshot(path=fpath)
+            if args['github-markdown'] is None:
+                page.screenshot(path=fpath,full_page=True)
+            else:
+                element_handle = page.query_selector("//article[@id='md']")
+                element_handle.screenshot(path=fpath)
             browser.close()
         img = Image.open(fpath)
         rawBytes = io.BytesIO()
