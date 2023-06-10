@@ -1,6 +1,7 @@
 import json
 import os
 import sys
+import shutil
 import random
 import traceback
 from flask import Flask
@@ -9,6 +10,13 @@ from loguru import logger as l
 import importlib
 
 l.info("正在启动 XT-api")
+# 初始化缓存
+try:
+    shutil.rmtree("cache")
+except:
+    pass
+os.mkdir("cache")
+l.success("缓存初始化完成")
 # 导入配置文件
 try:
     cfg=json.load(open("config/main.json"))
