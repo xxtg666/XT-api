@@ -2,7 +2,7 @@ from flask_restful import Resource, reqparse
 from loguru import logger as l
 from playwright.sync_api import Playwright, sync_playwright
 import os
-import markdown2
+import mistletoe
 import random
 import base64
 from PIL import Image
@@ -18,7 +18,7 @@ class markdown(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('markdown',location='form',type=str)
         args = parser.parse_args()
-        return {'message': 'success','html':markdown2.markdown(args['markdown'])}
+        return {'message': 'success','html':mistletoe.markdown(args['markdown'])}
 
 class img(Resource):
     def post(self):
