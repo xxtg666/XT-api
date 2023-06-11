@@ -25,6 +25,7 @@ class img(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('html', location='form', type=str)
         parser.add_argument('github-markdown', location='form', type=str)
+        parser.add_argument('timeout', location='form', type=str)
         args = parser.parse_args()
         args['html'] = args['html'].replace("\\n","")
         if args['github-markdown'] is None:
@@ -37,10 +38,16 @@ class img(Resource):
             page.set_content(html)
             fpath = os.path.join(os.getcwd(),"cache","".join(random.choices("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", k=20))+".png")
             if args['github-markdown'] is None:
-                page.screenshot(path=fpath,full_page=True)
+                if args['timeout'] is None:
+                    page.screenshot(path=fpath,full_page=True)
+                else:
+                    page.screenshot(path=fpath,full_page=True,timeout=int(args['timeout']))
             else:
                 element_handle = page.query_selector("//article[@id='md']")
-                element_handle.screenshot(path=fpath)
+                if args['timeout'] is None:
+                    element_handle.screenshot(path=fpath)
+                else:
+                    element_handle.screenshot(path=fpath,timeout=int(args['timeout']))
             browser.close()
         img = Image.open(fpath)
         rawBytes = io.BytesIO()
