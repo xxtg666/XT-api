@@ -35,7 +35,7 @@ class img(Resource):
             browser = playwright.chromium.launch(headless=True)
             page = browser.new_page()
             page.set_content(html)
-            page.wait_for_timeout(3000)
+            page.wait_for_timeout(1000)
             if args['github-markdown'] is None:
                 rawBytes = page.screenshot(
                     type="png", full_page=True, timeout=args['timeout'])
