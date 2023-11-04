@@ -36,7 +36,7 @@ class img(Resource):
             try:
                 page = browser.new_page()
                 page.set_content(html)
-                page.wait_for_timeout(4000)
+                page.wait_for_timeout(1000)
                 if args['github-markdown'] is None:
                     rawBytes = page.screenshot(
                         type="png", full_page=True, timeout=args['timeout'])
