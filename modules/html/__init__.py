@@ -33,18 +33,15 @@ class img(Resource):
                 "modules/html/github-markdown-template.html").read().replace("%markdown%", args['html'])
         with sync_playwright() as playwright:
             browser = playwright.chromium.launch(headless=True)
-            try:
-                page = browser.new_page()
-                page.set_content(html)
-                page.wait_for_timeout(1000)
-                if args['github-markdown'] is None:
-                    rawBytes = page.screenshot(
-                        type="png", full_page=True, timeout=args['timeout'])
-                else:
-                    element_handle = page.query_selector("//article[@id='md']")
-                    rawBytes = element_handle.screenshot(
-                        type="png", timeout=args['timeout'])
-            except:
-                pass
+            page = browser.new_page()
+            page.set_content(html)
+            page.wait_for_timeout(1000)
+            if args['github-markdown'] is None:
+                rawBytes = page.screenshot(
+                    type="png", full_page=True, timeout=args['timeout'])
+            else:
+                element_handle = page.query_selector("//article[@id='md']")
+                rawBytes = element_handle.screenshot(
+                    type="png", timeout=args['timeout'])
             browser.close()
         return {"message": "success", "image_base64": base64.b64encode(rawBytes).decode()}
