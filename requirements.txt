@@ -5,3 +5,4 @@ mistletoe
 playwright
 pillow
 cnocr
+requests
